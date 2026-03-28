@@ -42,31 +42,35 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.appcompat)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.10.0")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // UI
-    implementation("com.google.android.material:material:1.13.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
 
-    // RecyclerView (for list screen)
-    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    // RecyclerView
+    implementation(libs.androidx.recyclerview)
 
-    // Swipe Refresh (pull-to-refresh requirement)
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
+    // Swipe Refresh
+    implementation(libs.androidx.swiperefreshlayout)
 
-    // Networking (Retrofit)
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp) // Or use ktor-client-android
+    // Serialization (Content Negotiation) plugin
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    // Logging (optional, but highly recommended for debugging)
+    implementation(libs.ktor.client.logging)
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation(libs.kotlinx.coroutines.android)
 
     // Image loading (choose ONE, Coil recommended)
-    implementation("io.coil-kt:coil:2.7.0")
+    implementation(libs.coil)
 
     // Logging (optional but useful)
-    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
+    implementation(libs.logging.interceptor)
     implementation(libs.androidx.navigation.fragment)
 
     testImplementation(libs.junit)
