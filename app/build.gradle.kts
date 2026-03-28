@@ -73,6 +73,12 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.navigation.fragment)
 
+    //Koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.viewmodel)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
