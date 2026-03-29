@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -44,40 +46,32 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-
     // UI
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-
     // RecyclerView
     implementation(libs.androidx.recyclerview)
-
     // Swipe Refresh
     implementation(libs.androidx.swiperefreshlayout)
-
     implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.okhttp) // Or use ktor-client-android
+    implementation(libs.ktor.client.android)
     // Serialization (Content Negotiation) plugin
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.kotlinx.serialization.json)
     // Logging (optional, but highly recommended for debugging)
     implementation(libs.ktor.client.logging)
-
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
-
-    // Image loading (choose ONE, Coil recommended)
+    // Image loading
     implementation(libs.coil)
-
-    // Logging (optional but useful)
+    // Logging
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.navigation.fragment)
-
     //Koin
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.koin.androidx.viewmodel)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
