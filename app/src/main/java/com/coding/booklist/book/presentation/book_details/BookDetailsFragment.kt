@@ -2,6 +2,7 @@ package com.coding.booklist.book.presentation.book_details
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.coding.booklist.R
@@ -32,19 +33,24 @@ class BookDetailsFragment : Fragment(R.layout.fragment_book_details) {
         viewModel.bookId = book?.id.orEmpty()
         viewModel.setSelectedBook(book)
 
-        Glide.with(binding.blurIv.context)
-            .load(book?.imageUrl)
-            .transform(BlurTransformation(25, 3)) // radius, sampling
-            .into(binding.blurIv)
-        Glide.with(binding.bookIv.context)
-            .load(book?.imageUrl)
-            .error(R.drawable.ic_book_error)
-            .into(binding.bookIv)
+        if (book?.imageUrl.isNullOrEmpty() || book.imageUrl.contains("null")) {
+            binding.blurIv.setBackgroundColor(requireContext().getColor(R.color.light_gray))
+            binding.bookIv.setImageResource(R.drawable.ic_book_error)
+        } else {
+            Glide.with(binding.blurIv.context)
+                .load(book.imageUrl)
+                .transform(BlurTransformation(25, 3)) // radius, sampling
+                .into(binding.blurIv)
+            Glide.with(binding.bookIv.context)
+                .load(book.imageUrl)
+                .into(binding.bookIv)
+        }
 
         binding.titleTv.text = book?.title
         binding.authorsTv.text = book?.authors?.joinToString()
         collectLatestLifecycleFlow(viewModel.state) { state ->
             if (!state.book?.description.isNullOrEmpty()) {
+                binding.synopsisTv.isVisible = true
                 binding.descriptionTv.text = state.book.description
             }
         }

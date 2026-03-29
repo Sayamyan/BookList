@@ -46,32 +46,38 @@ class BookAdapter(
                 binding.ratingTv.text = "${round(rating * 10) / 10.0}"
                 binding.starIv.isVisible = true
             }
-            Glide.with(binding.bookImageIv.context)
-                .load(item?.imageUrl)
-                .error(R.drawable.ic_book_error)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.progress.isVisible = false
-                        return false
-                    }
+            binding.bookImageIv.setImageDrawable(null)
+            if (item?.imageUrl.isNullOrEmpty() || item.imageUrl.contains("null")) {
+                binding.bookImageIv.setImageResource(R.drawable.ic_book_error)
+                binding.progress.isVisible = false
+            } else {
+                Glide.with(itemView.context)
+                    .load(item.imageUrl)
+                    .placeholder(R.drawable.ic_book_error)
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            binding.progress.isVisible = false
+                            return false
+                        }
 
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.progress.isVisible = false
-                        return false
-                    }
-                })
-                .into(binding.bookImageIv)
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            binding.progress.isVisible = false
+                            return false
+                        }
+                    })
+                    .into(binding.bookImageIv)
+            }
         }
     }
 
