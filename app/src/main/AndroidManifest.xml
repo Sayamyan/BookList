@@ -7,7 +7,7 @@
         android:name=".BookListApplication"
         android:allowBackup="true"
         android:label="BookList"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.BookList">
 
         <activity
             android:name=".MainActivity"

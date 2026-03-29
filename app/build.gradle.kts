@@ -64,7 +64,9 @@ dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
     // Image loading
-    implementation(libs.coil)
+    implementation(libs.glide)
+    ksp(libs.glide.compiler)
+    implementation(libs.glide.transformations)
     // Logging
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.navigation.fragment)
@@ -72,6 +74,10 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+    //room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

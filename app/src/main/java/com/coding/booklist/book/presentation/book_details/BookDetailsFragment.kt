@@ -1,39 +1,52 @@
 package com.coding.booklist.book.presentation.book_details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.coding.booklist.R
+import com.coding.booklist.book.presentation.SelectedBookViewModel
+import com.coding.booklist.book.presentation.collectLatestLifecycleFlow
+import com.coding.booklist.book.presentation.viewBinding
+import com.coding.booklist.databinding.FragmentBookDetailsBinding
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.bumptech.glide.Glide
+import jp.wasabeef.glide.transformations.BlurTransformation
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class BookDetailsFragment : Fragment(R.layout.fragment_book_details) {
+    private val binding by viewBinding(FragmentBookDetailsBinding::bind)
+    private val viewModel: BookDetailsViewModel by viewModel()
+    private val selectedBookViewModel: SelectedBookViewModel by activityViewModel()
 
-class BookDetailsFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.backIv.setOnClickListener {
+            findNavController().navigateUp()
         }
+        setBookDetails()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book_details, container, false)
-    }
+    private fun setBookDetails() {
+        val book = selectedBookViewModel.selectedBook.value
+        viewModel.bookId = book?.id.orEmpty()
+        viewModel.setSelectedBook(book)
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String) =
-            BookDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                }
+        Glide.with(binding.blurIv.context)
+            .load(book?.imageUrl)
+            .transform(BlurTransformation(25, 3)) // radius, sampling
+            .into(binding.blurIv)
+        Glide.with(binding.bookIv.context)
+            .load(book?.imageUrl)
+            .error(R.drawable.ic_book_error)
+            .into(binding.bookIv)
+
+        binding.titleTv.text = book?.title
+        binding.authorsTv.text = book?.authors?.joinToString()
+        collectLatestLifecycleFlow(viewModel.state) { state ->
+            if (!state.book?.description.isNullOrEmpty()) {
+                binding.descriptionTv.text = state.book.description
             }
+        }
     }
 }
